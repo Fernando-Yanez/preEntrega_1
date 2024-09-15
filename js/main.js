@@ -51,7 +51,8 @@ do {
                 numeroTarjeta = prompt('Ingrese numero de tarjeta de credito');
                 numeroTarjetaInvertido = invertirNumero(numeroTarjeta);
 
-                if (numeroTarjetaInvertido.length == 16 && validadorNumero(numeroTarjetaInvertido)) {
+                if (numeroTarjetaInvertido.length == 16 && validadorNumero(numeroTarjetaInvertido))// Validacion de la cantidad de caracteres ingresado y que no aya letras
+                {
                     suma = 0;
                     for (let y = 0; y <= 15; y++) {
                         multiplos = parseInt(numeroTarjetaInvertido[y]);
@@ -98,72 +99,75 @@ do {
             let rut = '';
             let digitoVerificador = '';
 
-            if(rutValidador.length > 8 && rutValidador.length < 11 )
+            if (rutValidador.length > 8 && rutValidador.length < 11) // Validacion de formato
             {
-                for (let a = 0; a < rutValidador.length; a++) {
-                    if (rutValidador[a] != '.' && rutValidador[a] != '-') {
-                        rut += rutValidador[a];
-                    } else {
-                        digitoVerificador = rutValidador[a + 1];
-                        break
+                if (rutValidador[8] == '-' || rutValidador[9] == '-') { // validador de formato
+                    for (let a = 0; a < rutValidador.length; a++) {
+                        if (rutValidador[a] != '.' && rutValidador[a] != '-') //divicion de string en 2
+                        {
+                            rut += rutValidador[a];
+                        } else {
+                            digitoVerificador = rutValidador[a + 1];
+                            break
+                        }
                     }
-                }
-    
-                while (true) {
-                    if (rut.length < 8) {
-                        rut = '0' + rut;
+
+                    while (true) {
+                        if (rut.length < 8) {
+                            rut = '0' + rut;
+                        }
+                        else { break; }
+
                     }
-                    else { break; }
-    
-                }
-                let suma = 0;
-                if (validadorNumero(rut)) {
-                    let rutInvertido = invertirNumero(rut);
-                    let multiplicador = 2;
-    
-                    for (let b = 0; b < rutInvertido.length; b++) {
-    
-                        let numero = parseInt(rutInvertido[b]);
-                        suma += numero * multiplicador;
-                        if (multiplicador == 7) {
-                            multiplicador = 2;
+                    let suma = 0;
+                    if (validadorNumero(rut)) {
+                        let rutInvertido = invertirNumero(rut);
+                        let multiplicador = 2;
+
+                        for (let b = 0; b < rutInvertido.length; b++) {
+
+                            let numero = parseInt(rutInvertido[b]);
+                            suma += numero * multiplicador;
+                            if (multiplicador == 7) {
+                                multiplicador = 2;
+                            }
+                            else {
+                                multiplicador++;
+                            }
+                        }
+                        let resto = suma % 11;
+                        let digitoVerificadorCalculado = 11 - resto;
+
+                        if (digitoVerificadorCalculado == 10) {
+                            digitoVerificadorCalculado = 'K';
+                        }
+                        else if (digitoVerificadorCalculado == 11) {
+                            digitoVerificadorCalculado = '0';
+                        }
+
+
+                        if (digitoVerificador == digitoVerificadorCalculado) {
+                            console.log('El rut ingresado es válido');
                         }
                         else {
-                            multiplicador++;
+                            console.log('El rut ingresado no es válido');
                         }
-                    }
-                    let resto = suma % 11;
-                    let digitoVerificadorCalculado = 11 - resto;
 
-                    if (digitoVerificadorCalculado == 10) {
-                        digitoVerificadorCalculado = 'K';
+
+
+                    } else {
+                        console.log('Rut invalido ');
                     }
-                    else if (digitoVerificadorCalculado == 11) {
-                        digitoVerificadorCalculado = '0';
-                    }
-    
-    
-                    if(digitoVerificador == digitoVerificadorCalculado)
-                    {
-                        console.log('El rut ingresado es válido');
-                    }
-                    else
-                    {
-                        console.log('El rut ingresado no es válido');
-                        }
-                    
-    
-    
-                } else {
-                    console.log('Rut invalido ');
+
+
                 }
-    
-    
-    
+                else {
+                    alert('Formato invalido');
+                }
+
 
             }
-            else
-            {
+            else {
                 console.log('Rut invalido ');
             }
 
